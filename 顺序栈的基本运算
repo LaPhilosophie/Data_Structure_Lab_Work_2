@@ -1,13 +1,123 @@
 /*
 2.1 实现顺序栈的基本运算
-
 编写一个程序，实现顺序栈的各种基本运算，并在此基础上设计一个主程序完成如下功能：
 （1）初始化栈s；
 （2）判断栈s是否为空；
-（3）依次进栈元素-1,2,10,-3,5；
+（3）依次进栈元素-1,2,10,-3,5；-1 2 10 -3 5
 （4）判断栈s是否为空；
 （5）输出栈长度；
-（6）输出从栈顶到栈底的元素；
-（7）输出出栈序列；
+（6）输出从栈顶到栈底的元素；（仅仅输出）
+（7）输出出栈序列；          （出栈）
 （8）判断栈s是否为空。
 */
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+#define MAXSIZE 100
+#define ERROR -1
+#define OK 1
+typedef struct
+{
+    int *base;
+    int *top;
+    int stacksize;
+}SqStack;
+typedef int Status;
+Status InitStack(SqStack &S)
+{
+    S.base=new int [MAXSIZE];
+    if(!S.base)
+        exit(OVERFLOW);
+    S.top=S.base;
+    S.stacksize=MAXSIZE;
+    return OK;
+}
+Status Push(SqStack &S,int e)
+{
+    if(S.top-S.base==S.stacksize)
+        return ERROR;
+    *S.top++=e;
+    return OK;
+}
+Status Pop(SqStack &S,int &e)
+{
+    if(S.top==S.base)
+        return ERROR;
+    e=*--S.top;
+    return OK;
+}
+int GetTop(SqStack S)//返回栈顶元素，不修改指针
+{
+    if(S.top!=S.base)
+        return *(S.top-1);
+}
+void IsEmpty(SqStack S)
+{
+    if(S.top==S.base)
+        cout<<"为空"<<endl;
+    else
+        cout<<"不为空"<<endl;
+}
+void CreatStack(SqStack &S)
+{
+    int e;
+    for(int i=0;i<5;i++)
+    {
+        cin>>e;
+        Push(S,e);
+    }
+}
+int StackLength(SqStack S)
+{
+    return S.top-S.base;
+}
+void Traverse(SqStack S)
+{
+    int *p;
+    p=S.top-1;
+    while(p>=S.base)
+    {
+        cout<<*p<<" ";
+        p--;
+    }
+    cout<<endl;
+}
+void PopAll(SqStack &S)
+{
+    int e;
+    while(S.top!=S.base)
+    {
+        Pop(S,e);
+        cout<<e<<" ";
+    }
+    cout<<endl;
+}
+int main()
+{
+    SqStack S;
+    InitStack(S);
+
+    cout<<"初始化栈完成"<<endl;
+
+    cout<<"判断栈是否为空"<<endl;
+    IsEmpty(S);
+
+    cout<<"请输入进栈元素"<<endl;
+    CreatStack(S);
+
+    cout<<"判断栈是否为空"<<endl;
+    IsEmpty(S);
+
+    cout<<"栈的长度为"<<endl;
+    cout<<StackLength(S)<<endl;
+
+    cout<<"输出从栈顶到栈底的元素"<<endl;
+    Traverse(S);
+
+    cout<<"输出出栈序列"<<endl;
+    PopAll(S);
+
+    cout<<"判断栈是否为空"<<endl;
+    IsEmpty(S);
+    return 0;
+}
