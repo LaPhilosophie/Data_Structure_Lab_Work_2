@@ -9,3 +9,99 @@
 （7）输出出队序列；
 （8）判断队列q是否为空。
 */
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+#define OK 1
+#define ERROR -1
+#define MAXSIZE 100
+typedef int Status;
+typedef struct
+{
+    int *base;
+    int Front;
+    int rear;
+}SqQueue;
+Status InitQueue(SqQueue &Q)
+{
+    Q.base=new int[MAXSIZE];
+    if(!Q.base)
+        exit(OVERFLOW);
+    Q.Front=Q.rear=0;
+    return OK;
+}
+int QueueLength(SqQueue Q)
+{
+    return (Q.rear-Q.Front+MAXSIZE)%MAXSIZE;
+}
+Status EnQueue(SqQueue &Q,int e)
+{
+    if((Q.rear+1)%MAXSIZE==Q.Front)
+        return ERROR;
+    Q.base[Q.rear]=e;
+    Q.rear=(Q.rear+1)%MAXSIZE;
+    return OK;
+}
+int DeQueue(SqQueue &Q)
+{
+    if(Q.Front==Q.rear)
+        return ERROR;
+    int e=Q.base[Q.Front];
+    Q.Front=(Q.Front+1)%MAXSIZE;
+    return e;
+}
+int GetHead(SqQueue &Q)
+{
+    if(Q.Front!=Q.rear)
+        return Q.base[Q.Front];
+}
+void IsEmpty(SqQueue Q)
+{
+    if(Q.Front==Q.rear)
+        cout<<"是空队列"<<endl;
+    else
+        cout<<"不是空队列"<<endl;
+}
+void Creat_SqQueue(SqQueue &Q,int n)
+{
+    int e,i;
+    for(i=0;i<n;i++)
+    {
+        cin>>e;
+        EnQueue(Q,e);
+    }
+}
+void Traverse(SqQueue &Q)
+{
+    while(Q.Front!=Q.rear)
+        cout<<DeQueue(Q)<<" ";
+    cout<<endl;
+}
+int main()
+{
+    SqQueue Q;
+    cout<<"初始化队列完成"<<endl;
+    InitQueue(Q);cout<<endl;
+
+    cout<<"判断队列是否为空"<<endl;
+    IsEmpty(Q);cout<<endl;
+
+    cout<<"请输入进队元素"<<endl;
+    Creat_SqQueue(Q,3);cout<<endl;
+
+    cout<<"出队一个元素，并输出该元素"<<endl;
+    cout<<DeQueue(Q)<<endl;cout<<endl;
+
+    cout<<"队的长度为"<<endl;
+    cout<<QueueLength(Q)<<endl;cout<<endl;
+
+    cout<<"输入进队元素"<<endl;
+    Creat_SqQueue(Q,3);cout<<endl;
+
+    cout<<"输出出队序列"<<endl;
+    Traverse(Q);cout<<endl;
+
+    cout<<"判断队列是否为空"<<endl;
+    IsEmpty(Q);cout<<endl;
+    return 0;
+}
