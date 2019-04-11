@@ -9,3 +9,81 @@
 （7）输出队列长度；
 （7）输出出队序列。
 */
+#include <iostream>
+#define MAXSIZE 100
+#define ERROR -1
+#define OK 1
+using namespace std;
+typedef int Status;
+typedef struct QNode
+{
+    int data;
+    struct QNode *next;
+}QNode,*QueuePtr;
+typedef struct
+{
+    QueuePtr Front;
+    QueuePtr rear;
+}LinkQueue;
+Status InitQueue(LinkQueue &Q)
+{
+    Q.Front=Q.rear=new QNode;
+    Q.Front->next=NULL;
+    return OK;
+}
+Status EnQueue(LinkQueue &Q,int e)
+{
+    return OK;
+}
+Status DeQueue(LinkQueue &Q,int &e)
+{//删除Q的队头元素，用e返回值
+    if(Q.Front==Q.rear)
+        return ERROR;
+    
+    return OK;
+}
+int GetHead(LinkQueue Q)
+{
+    if(Q.Front!=Q.rear)
+        return Q.Front->next->data;
+}
+void IsEmpty(LinkQueue Q)
+{
+    
+}
+void Creat_linkQueue(LinkQueue &Q,int n)
+{
+    
+}
+void Traverse(LinkQueue Q)
+{
+    
+}
+int main()
+{
+    LinkQueue Q;
+    cout<<"初始化队列完成"<<endl;
+    InitQueue(Q);cout<<endl;
+
+    cout<<"判断队列是否为空"<<endl;
+    IsEmpty(Q);cout<<endl;
+
+    cout<<"请输入进队元素"<<endl;
+    Creat_linkQueue(Q,3);cout<<endl;
+
+    cout<<"出队一个元素，并输出该元素"<<endl;
+    cout<<DeQueue(Q)<<endl;cout<<endl;
+
+    cout<<"队的长度为"<<endl;
+    cout<<QueueLength(Q)<<endl;cout<<endl;
+
+    cout<<"输入进队元素"<<endl;
+    Creat_linkQueue(Q,3);cout<<endl;
+
+    cout<<"输出出队序列"<<endl;
+    Traverse(Q);cout<<endl;
+
+    cout<<"判断队列是否为空"<<endl;
+    IsEmpty(Q);cout<<endl;
+    return 0;
+}
