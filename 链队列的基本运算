@@ -10,6 +10,7 @@
 （7）输出出队序列。
 */
 #include <iostream>
+#include <bits/stdc++.h>
 #define MAXSIZE 100
 #define ERROR -1
 #define OK 1
@@ -33,14 +34,25 @@ Status InitQueue(LinkQueue &Q)
 }
 Status EnQueue(LinkQueue &Q,int e)
 {
+    QueuePtr p;
+    p=new QNode;
+    p->data=e;
+    p->next=NULL;
+    Q.rear->next=p;
+    Q.rear=p;
     return OK;
 }
-Status DeQueue(LinkQueue &Q,int &e)
+void DeQueue(LinkQueue &Q)
 {//删除Q的队头元素，用e返回值
-    if(Q.Front==Q.rear)
-        return ERROR;
-    
-    return OK;
+    int e;
+    QueuePtr p;
+    p=Q.Front->next;
+    e=p->data;
+    Q.Front->next=p->next;
+    if(Q.rear==p)
+        Q.rear=Q.Front;
+    delete p;
+    cout<<e<<endl;
 }
 int GetHead(LinkQueue Q)
 {
@@ -49,15 +61,42 @@ int GetHead(LinkQueue Q)
 }
 void IsEmpty(LinkQueue Q)
 {
-    
+    if(Q.Front==Q.rear)
+        cout<<"是空队列"<<endl;
+    else
+        cout<<"不是空队列"<<endl;
 }
 void Creat_linkQueue(LinkQueue &Q,int n)
 {
-    
+    for(int i=0;i<n;i++)
+    {
+        int e;
+        cin>>e;
+        EnQueue(Q,e);
+    }
 }
 void Traverse(LinkQueue Q)
 {
-    
+    QueuePtr p;
+    p=Q.Front;
+    while(p!=Q.rear)
+    {
+        p=p->next;
+        cout<<p->data<<" ";
+    }
+    cout<<endl;
+}
+int QueueLength(LinkQueue Q)
+{
+    QueuePtr p;
+    p=Q.Front;
+    int j=0;
+    while(p!=Q.rear)
+    {
+        j++;
+        p=p->next;
+    }
+    return j;
 }
 int main()
 {
@@ -72,7 +111,7 @@ int main()
     Creat_linkQueue(Q,3);cout<<endl;
 
     cout<<"出队一个元素，并输出该元素"<<endl;
-    cout<<DeQueue(Q)<<endl;cout<<endl;
+    DeQueue(Q);cout<<endl;
 
     cout<<"队的长度为"<<endl;
     cout<<QueueLength(Q)<<endl;cout<<endl;
@@ -87,3 +126,4 @@ int main()
     IsEmpty(Q);cout<<endl;
     return 0;
 }
+
