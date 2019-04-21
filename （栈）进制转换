@@ -1,3 +1,73 @@
 /*
 借助栈实现数制转换。要求将非负十进制整数N转换为二进制输出。具体实现参考教材。
 */
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+#define MAXSIZE 100
+#define ERROR -1
+#define OK 1
+typedef struct
+{
+    int *base;
+    int *top;
+    int stacksize;
+}SqStack;
+typedef int Status;
+Status InitStack(SqStack &S)
+{
+    S.base=new int [MAXSIZE];
+    if(!S.base)
+        exit(OVERFLOW);
+    S.top=S.base;
+    S.stacksize=MAXSIZE;
+    return OK;
+}
+Status Push(SqStack &S,int e)
+{
+    if(S.top-S.base==S.stacksize)
+        return ERROR;
+    *S.top++=e;
+    return OK;
+}
+Status Pop(SqStack &S,int &e)
+{
+    if(S.top==S.base)
+        return ERROR;
+    e=*--S.top;
+    return OK;
+}
+Status StackEmpty(SqStack S)
+{
+    if(S.top==S.base)
+        return 1;
+    return 0;
+}
+void converse(int N)
+{
+    SqStack S;
+    InitStack(S);
+    while(N)
+    {
+        Push(S,N%8);
+        N=N/8;
+    }
+    while(!StackEmpty(S))
+    {
+        int e;
+        Pop(S,e);
+        cout<<e;
+    }
+}
+int main()
+{
+    cout<<"请输入需要进制转换的数字"<<endl;cout<<endl;
+
+    int N;
+
+    cin>>N;
+
+    converse(N);
+
+    return 0;
+}
